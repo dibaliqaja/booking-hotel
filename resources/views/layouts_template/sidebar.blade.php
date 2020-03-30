@@ -16,6 +16,7 @@
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Master</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{ route('hotel.index') }}">Data Hotel</a></li>
+            <li><a class="nav-link" href="{{ route('room.index') }}">Data Room</a></li>
           </ul>
         </li>
         <li>

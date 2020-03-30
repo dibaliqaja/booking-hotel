@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Hotel;
+use App\Room;
 use Illuminate\Http\Request;
 use DataTables;
 
-class HotelController extends Controller
+class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,18 +16,18 @@ class HotelController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $hotel = Hotel::latest()->get();
-            return DataTables::of($hotel)
+            $room = Room::latest()->get();
+            return DataTables::of($room)
                                 ->addIndexColumn()
-                                ->addColumn('action', function($hotel) {
-                                    $button = '<a href="'.route('hotel.edit', $hotel->id).'" type="button" name="edit" class="edit btn btn-info">Edit</a>&nbsp;&nbsp;';
-                                    $button .= '<button type="button" delete_value="'.$hotel->id.'" class="deleteHotel btn btn-danger">Delete</button>';
+                                ->addColumn('action', function($room) {
+                                    $button = '<a href="'.route('room.edit', $room->id).'" type="button" name="edit" class="edit btn btn-info">Edit</a>&nbsp;&nbsp;';
+                                    $button .= '<button type="button" delete_value="'.$room->id.'" class="deleteRoom btn btn-danger">Delete</button>';
                                     return $button;
                                 })
                                 ->rawColumns(['action'])
                                 ->make(true);
         }
-        return view('data_hotel.index');
+        return view('data_room.index');
     }
 
     /**
@@ -37,7 +37,7 @@ class HotelController extends Controller
      */
     public function create()
     {
-        return view('data_hotel.create');
+        return view('data_room.create');
     }
 
     /**
@@ -50,18 +50,17 @@ class HotelController extends Controller
     {
         $this->validate($request, [
             'name'      => 'required',
-            'address'   => 'required',
+            'quantity'   => 'required',
+            'price'   => 'required',
         ]);
 
-        Hotel::create([
-            'name'      => $request->name,
-            'address'   => $request->address,
-            'maps'      => "https://www.google.com/maps/search/?api=1&query=".$request->latitude.",".$request->longitude,
-            'latitude'  => $request->latitude,
-            'longitude' => $request->longitude,
+        Room::create([
+            'name'       => $request->name,
+            'quantity'   => $request->quantity,
+            'price'      => $request->price,
         ]);
 
-        return redirect()->route('hotel.index')->with('success', 'Hotel Added!');
+        return redirect()->route('room.index')->with('success', 'Room Added!');
     }
 
     /**
@@ -83,8 +82,8 @@ class HotelController extends Controller
      */
     public function edit($id)
     {
-        $hotel = Hotel::find($id);
-        return view('data_hotel.edit', compact('hotel'));
+        $room = Room::find($id);
+        return view('data_room.edit', compact('room'));
     }
 
     /**
@@ -98,19 +97,18 @@ class HotelController extends Controller
     {
         $this->validate($request, [
             'name'      => 'required',
-            'address'   => 'required',
+            'quantity'   => 'required',
+            'price'   => 'required',
         ]);
 
-        $hotel = [
-            'name'      => $request->name,
-            'address'   => $request->address,
-            'maps'      => "https://www.google.com/maps/search/?api=1&query=".$request->latitude.",".$request->longitude,
-            'latitude'  => $request->latitude,
-            'longitude' => $request->longitude,
+        $room = [
+            'name'       => $request->name,
+            'quantity'   => $request->quantity,
+            'price'      => $request->price,
         ];
 
-        Hotel::whereId($id)->update($hotel);
-        return redirect()->route('hotel.index')->with('success','Hotel Updated!');
+        Room::whereId($id)->update($room);
+        return redirect()->route('room.index')->with('success', 'Room Updated!');
     }
 
     /**
@@ -121,9 +119,9 @@ class HotelController extends Controller
      */
     public function destroy($id)
     {
-        $hotel = Hotel::find($id);
-        $hotel->delete();
+        $room = Room::find($id);
+        $room->delete();
 
-        return redirect()->back()->with('success','Hotel Deleted!');
+        return redirect()->back()->with('success','Room Deleted!');
     }
 }

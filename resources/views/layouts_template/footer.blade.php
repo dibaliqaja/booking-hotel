@@ -7,11 +7,11 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="hotelDelete">
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteForm">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Delete Hotel</h5>
+          <h5 class="modal-title">Delete Data</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -59,11 +59,10 @@
 <script>
     $(document).ready(function () {
 
-        $(document).on('click', '.delete', function(){
+        $(document).on('click', '.deleteHotel', function(){
             var id = $(this).attr('delete_value');
             var a = $("#delete-form").attr("action", "../hotel/" + id);
-            console.log(a);
-            $('#hotelDelete').modal();
+            $('#deleteForm').modal();
         });
 
         $('#hotel-table').dataTable({
@@ -77,6 +76,28 @@
                 { data: 'DT_RowIndex', searchable: false },
                 { data: 'name', name: 'name' },
                 { data: 'address', name: 'address' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+            ]
+        });
+
+        $(document).on('click', '.deleteRoom', function(){
+            var id = $(this).attr('delete_value');
+            var a = $("#delete-form").attr("action", "../room/" + id);
+            $('#deleteForm').modal();
+        });
+
+        $('#room-table').dataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('room.index') }}",
+            },
+            columns: [
+                { data: 'DT_RowIndex', searchable: false },
+                { data: 'name', name: 'name' },
+                { data: 'quantity', name: 'quantity' },
+                { data: 'price', name: 'price', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp ' ) },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
             ]
         });
