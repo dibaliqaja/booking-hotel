@@ -32,25 +32,6 @@
     </script>
     <!-- /END GA -->
 
-    <!-- MAPS API -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvTkPKa1jErT_Kh9ZPTIP2az48f8y0WGo&libraries=places"></script>
-    <script>
-        function initialize() {
-        var input = document.getElementById('address');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        google.maps.event.addListener(autocomplete, 'place_changed',
-            function() {
-                var place = autocomplete.getPlace();
-                var lat = place.geometry.location.lat();
-                var lng = place.geometry.location.lng();
-                document.getElementById('latitude').value   = lat;
-                document.getElementById('longitude').value  = lng;
-            }
-        );
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
 </head>
 
 <body>
