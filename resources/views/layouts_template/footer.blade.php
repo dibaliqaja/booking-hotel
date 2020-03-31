@@ -62,7 +62,10 @@
     $(document).ready(function () {
         function initialize() {
             var input = document.getElementById('address');
-            var autocomplete = new google.maps.places.Autocomplete(input);
+            var options = {
+                types: ['address'],
+            };
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
             google.maps.event.addListener(autocomplete, 'place_changed',
                 function() {
                     var place = autocomplete.getPlace();
